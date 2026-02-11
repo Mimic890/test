@@ -4,6 +4,15 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Как ты видишь мир? — мини‑тест на геометрические иллюзии</title>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2E5CTT9EJ3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-2E5CTT9EJ3');
+  </script>
   <style>
     :root{
       --bg:#0b0f17;
@@ -19,7 +28,7 @@
       --warn:#f59e0b;
       --shadow: 0 12px 30px rgba(0,0,0,.45);
       --r:16px;
-      --w: 980px;
+      --w: 1100px;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
     }
@@ -37,7 +46,12 @@
       overflow-x:hidden;
     }
     a{color:inherit}
-    .wrap{max-width:var(--w); margin:0 auto; padding:20px 18px 60px}
+    .wrap{
+      width:min(var(--w), 100%);
+      max-width:100%;
+      margin:0 auto;
+      padding: clamp(14px, 2.2vw, 24px) clamp(14px, 2.4vw, 22px) clamp(48px, 6vw, 72px);
+    }
     header{
       position:sticky; top:0; z-index:10;
       backdrop-filter: blur(10px);
@@ -45,9 +59,10 @@
       border-bottom: 1px solid rgba(148,163,184,.12);
     }
     .topbar{
-      max-width:var(--w);
+      width:min(var(--w), 100%);
+      max-width:100%;
       margin:0 auto;
-      padding:14px 18px;
+      padding: clamp(10px, 1.8vw, 16px) clamp(14px, 2.4vw, 22px);
       display:flex; align-items:center; justify-content:space-between; gap:14px;
     }
     .brand{
@@ -131,8 +146,9 @@
     }
     .hero h2{
       margin:0 0 8px;
-      font-size:26px;
+      font-size: clamp(22px, 3.3vw, 34px);
       letter-spacing:.2px;
+      line-height:1.15;
     }
     .hero p{
       margin: 0 0 14px;
@@ -155,6 +171,7 @@
       border:none;
       border-radius: 12px;
       padding: 10px 12px;
+      min-height: 42px;
       cursor:pointer;
       font-weight:600;
       background: rgba(96,165,250,.22);
@@ -221,7 +238,7 @@
       background: linear-gradient(180deg, rgba(17,24,39,.82), rgba(15,23,42,.64));
       border: 1px solid rgba(148,163,184,.14);
       border-radius: calc(var(--r) + 6px);
-      padding: 16px;
+      padding: clamp(12px, 2.2vw, 20px);
       box-shadow: var(--shadow);
       position:relative;
       overflow:hidden;
@@ -280,10 +297,17 @@
     }
     svg{max-width: 100%; height: auto; display:block}
     .controls{
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+      display:grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap:10px;
+      align-items:center;
     }
-    .answers{display:flex; gap:8px; flex-wrap:wrap}
-    .answers .btn{min-width:140px}
+    .answers{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap:8px;
+    }
+    .answers .btn{min-width:0}
     .toggle{
       display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end;
       color: rgba(229,231,235,.85);
@@ -326,7 +350,7 @@
     }
     .bar{
       flex:1;
-      min-width: 220px;
+      min-width: 180px;
       height: 10px;
       border-radius: 999px;
       background: rgba(148,163,184,.12);
@@ -344,11 +368,155 @@
 
     .resultGrid{
       display:grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
+      align-items:start;
+    }
+    .resultSummary{
+      grid-column: 1 / -1;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+    .scoreRing{
+      width: 106px;
+      height: 106px;
+      border-radius: 50%;
+      border: 2px solid rgba(96,165,250,.45);
+      background:
+        radial-gradient(circle at 30% 25%, rgba(96,165,250,.28), transparent 48%),
+        rgba(2,6,23,.5);
+      display:grid;
+      place-items:center;
+      flex-shrink:0;
+    }
+    .scoreRing span{
+      font-family: var(--mono);
+      font-size: 24px;
+      color: rgba(229,231,235,.94);
+    }
+    .resultMain{
+      min-width: min(100%, 270px);
+      flex:1;
+    }
+    .resultMain p{
+      margin:0;
+      color: rgba(229,231,235,.88);
+      line-height:1.5;
+    }
+    .resultList{
+      margin:0;
+      padding:0;
+      list-style:none;
+      display:grid;
+      gap:8px;
+    }
+    .resultLine{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      padding:8px 10px;
+      border-radius: 10px;
+      border:1px solid rgba(148,163,184,.14);
+      background: rgba(17,24,39,.42);
+    }
+    .resultLine span{
+      min-width: 0;
+    }
+    .resultLine b{
+      font-family: var(--mono);
+      white-space:nowrap;
+      color: rgba(229,231,235,.94);
+      font-size: 12px;
+      font-weight:600;
+    }
+    .resultHint{
+      margin-top:10px;
+      font-size:12px;
+      color: var(--muted);
+    }
+    .reportBox{
+      margin-top: 12px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: var(--mono);
+      font-size:12px;
+      color: rgba(229,231,235,.88);
+      background: rgba(2,6,23,.35);
+      border:1px solid rgba(148,163,184,.14);
+      padding:12px;
+      border-radius: var(--r);
+    }
+    @media (max-width: 940px){
+      .topbar{
+        flex-wrap:wrap;
+        justify-content:flex-start;
+      }
+      nav{
+        width:100%;
+        justify-content:flex-start;
+      }
+      .chip{
+        min-height: 38px;
+      }
+      .testHeader > .row{
+        width:100%;
+      }
+      .testHeader > .row .btn{
+        flex:1;
+      }
+      .resultGrid{
+        grid-template-columns:1fr;
+      }
     }
     @media (max-width: 740px){
-      .resultGrid{grid-template-columns:1fr}
+      .hero{
+        padding: 14px;
+      }
+      .stats{
+        padding: 10px;
+      }
+      .stat{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .progress{
+        gap:8px;
+      }
+      .bar{
+        min-width: 120px;
+      }
+      .controls{
+        grid-template-columns:1fr;
+      }
+      .toggle{
+        justify-content:flex-start;
+      }
+      .resultSummary{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+    }
+    @media (max-width: 560px){
+      .ctaRow .btn{
+        width:100%;
+      }
+      .chip{
+        flex:1;
+      }
+      .answers{
+        grid-template-columns:1fr;
+      }
+      .foot{
+        font-size: 11px;
+      }
+      .scoreRing{
+        width:92px;
+        height:92px;
+      }
     }
     .metric{
       background: rgba(2,6,23,.35);
@@ -497,18 +665,18 @@
       <div class="card">
         <h3>Результат</h3>
         <p class="muted" style="margin:0 0 10px">
-          Тут твой «профиль восприятия». Можно скопировать результаты и вставить в отчёт.
+          Тут твой «профиль восприятия» в нормальном читаемом виде. Можно скопировать короткий текстовый отчёт.
         </p>
         <div class="resultGrid" id="resultGrid"></div>
 
         <div class="hr"></div>
 
         <div class="row">
-          <button class="btn" id="copyBtn">Скопировать результат (JSON)</button>
+          <button class="btn" id="copyBtn">Скопировать отчёт</button>
           <button class="btn secondary" id="backToTestsBtn">Вернуться к тесту</button>
         </div>
 
-        <pre id="jsonOut" style="margin-top:12px; white-space:pre-wrap; word-break:break-word; font-family:var(--mono); font-size:12px; color: rgba(229,231,235,.88); background: rgba(2,6,23,.35); border:1px solid rgba(148,163,184,.14); padding:12px; border-radius: var(--r);"></pre>
+        <div class="reportBox" id="reportOut"></div>
 
         <div class="foot">
           <b>Важно:</b> это развлекательный мини‑тест. Он не является медицинской диагностикой.
@@ -940,6 +1108,7 @@
     let current = 0;
     const defaultProgress = tests.reduce((acc,t)=> (acc[t.id]={answered:false, answer:null, showMeasure:false}, acc), {});
     let progress = loadProgress();
+    let lastReportText = '';
 
     function loadProgress(){
       try{
@@ -1039,7 +1208,10 @@
       $('#barFill').style.width = `${pct}%`;
 
       $('#prevBtn').disabled = current === 0;
-      $('#nextBtn').disabled = current === tests.length-1;
+      const isLastQuestion = current === tests.length - 1;
+      $('#nextBtn').disabled = false;
+      $('#nextBtn').textContent = isLastQuestion ? 'Завершить' : 'Дальше →';
+      $('#nextBtn').setAttribute('aria-label', isLastQuestion ? 'Завершить тест и открыть результаты' : 'Перейти к следующему вопросу');
 
       $('#totalCount').textContent = tests.length;
 
@@ -1050,6 +1222,7 @@
       const answered = tests.filter(t => progress[t.id]?.answered).length;
       const correct = tests.filter(t => progress[t.id]?.answered && progress[t.id].answer === t.correct).length;
       const fooled = answered - correct;
+      const accuracy = answered ? Math.round((correct / answered) * 100) : 0;
 
       const byType = {
         length: ['muller-lyer','ponzo','oppel-kundt'],
@@ -1071,6 +1244,9 @@
         answered: segment(byType.parallel).answered + segment(byType.curve).answered,
         fooled: segment(byType.parallel).fooled + segment(byType.curve).fooled
       };
+      const segLengthRate = segLength.answered ? Math.round(((segLength.answered - segLength.fooled) / segLength.answered) * 100) : 0;
+      const segSizeRate = segSize.answered ? Math.round(((segSize.answered - segSize.fooled) / segSize.answered) * 100) : 0;
+      const segOtherRate = segOther.answered ? Math.round(((segOther.answered - segOther.fooled) / segOther.answered) * 100) : 0;
 
       const verdict = (() => {
         if(answered === 0) return 'Пока нет ответов — пройди тест 🙂';
@@ -1083,61 +1259,88 @@
 
       const grid = $('#resultGrid');
       grid.innerHTML = `
-        <div class="metric">
-          <h4>Сводка</h4>
-          <p>
-            Отвечено: <b>${answered}</b> из <b>${tests.length}</b><br/>
-            Верно: <b>${correct}</b><br/>
-            «Обмануло»: <b>${fooled}</b><br/>
-            <span class="muted">Вывод:</span> ${escapeHTML(verdict)}
-          </p>
+        <div class="metric resultSummary">
+          <div class="resultMain">
+            <h4>Общая оценка</h4>
+            <p>
+              Отвечено: <b>${answered}</b> из <b>${tests.length}</b><br/>
+              Верно: <b>${correct}</b>, «обмануло»: <b>${fooled}</b><br/>
+              <span class="muted">Вывод:</span> ${escapeHTML(verdict)}
+            </p>
+            <div class="resultHint">Точность считается только по тем вопросам, где уже есть ответ.</div>
+          </div>
+          <div class="scoreRing" title="Точность ответов">
+            <span>${accuracy}%</span>
+          </div>
         </div>
         <div class="metric">
-          <h4>Какие эффекты сильнее</h4>
+          <h4>По типам эффектов</h4>
+          <ul class="resultList">
+            <li class="resultLine">
+              <span>Длина и перспектива</span>
+              <b>${segLength.fooled}/${segLength.answered} ошибок • ${segLengthRate}%</b>
+            </li>
+            <li class="resultLine">
+              <span>Размер и окружение</span>
+              <b>${segSize.fooled}/${segSize.answered} ошибок • ${segSizeRate}%</b>
+            </li>
+            <li class="resultLine">
+              <span>Геометрия линий</span>
+              <b>${segOther.fooled}/${segOther.answered} ошибок • ${segOtherRate}%</b>
+            </li>
+          </ul>
+        </div>
+        <div class="metric">
+          <h4>Что это значит</h4>
           <p>
-            Длина/перспектива: <b>${segLength.fooled}</b> ошибок из <b>${segLength.answered}</b><br/>
-            Размер/окружение: <b>${segSize.fooled}</b> ошибок из <b>${segSize.answered}</b><br/>
-            Геометрия (паралл./крив.): <b>${segOther.fooled}</b> ошибок из <b>${segOther.answered}</b>
+            Если ошибок больше в «длине/перспективе», мозг сильнее опирается на глубину сцены.<br/>
+            Если чаще ошибаешься в «размере/окружении», контекст соседних объектов влияет сильнее.<br/>
+            Блок «геометрия линий» показывает чувствительность к направлению штрихов и радиальному фону.
           </p>
         </div>
         <div class="metric">
           <h4>По вопросам</h4>
-          <p>
+          <ul class="resultList">
             ${tests.map(t=>{
               const p = progress[t.id];
               const ok = p?.answered ? (p.answer === t.correct) : null;
-              const mark = ok===null ? '—' : (ok ? '✅' : '❌');
+              const mark = ok===null ? '— без ответа' : (ok ? '✅ верно' : '❌ ошибка');
               const ans = p?.answered ? labelFor(t, p.answer) : 'нет ответа';
-              return `${mark} <b>${escapeHTML(t.title)}</b>: ${escapeHTML(ans)}`;
-            }).join('<br/>')}
-          </p>
-        </div>
-        <div class="metric">
-          <h4>Идея для отчёта</h4>
-          <p>
-            Можно дать пройти этот сайт 20–30 людям и сравнить, какие иллюзии «сильнее» по проценту ошибок.
-            (Таблицу удобно собрать из JSON, который копируется ниже.)
-          </p>
+              return `
+                <li class="resultLine">
+                  <span>${escapeHTML(t.title)}: ${escapeHTML(ans)}</span>
+                  <b>${mark}</b>
+                </li>
+              `;
+            }).join('')}
+          </ul>
         </div>
       `;
 
-      const out = {
-        title: 'Как ты видишь мир?',
-        timestamp: new Date().toISOString(),
-        answered,
-        correct,
-        fooled,
-        answers: tests.map(t => ({
-          id: t.id,
-          title: t.title,
-          answered: !!progress[t.id]?.answered,
-          answer: progress[t.id]?.answer ?? null,
-          correct: t.correct,
-          isCorrect: progress[t.id]?.answered ? (progress[t.id]?.answer === t.correct) : null
-        }))
-      };
-      const json = JSON.stringify(out, null, 2);
-      $('#jsonOut').textContent = json;
+      const generatedAt = new Date().toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' });
+      lastReportText = [
+        'Как ты видишь мир — итог',
+        `Дата: ${generatedAt}`,
+        `Отвечено: ${answered}/${tests.length}`,
+        `Верно: ${correct}`,
+        `Ошибок из-за иллюзий: ${fooled}`,
+        `Точность: ${accuracy}%`,
+        `Вывод: ${verdict}`,
+        '',
+        'По типам эффектов:',
+        `- Длина и перспектива: ${segLength.fooled}/${segLength.answered} ошибок (${segLengthRate}%)`,
+        `- Размер и окружение: ${segSize.fooled}/${segSize.answered} ошибок (${segSizeRate}%)`,
+        `- Геометрия линий: ${segOther.fooled}/${segOther.answered} ошибок (${segOtherRate}%)`,
+        '',
+        'По вопросам:',
+        ...tests.map((t, idx) => {
+          const p = progress[t.id];
+          const ans = p?.answered ? labelFor(t, p.answer) : 'нет ответа';
+          const status = p?.answered ? (p.answer === t.correct ? 'верно' : 'ошибка') : 'без ответа';
+          return `${idx + 1}. ${t.title}: ${ans} (${status})`;
+        })
+      ].join('\n');
+      $('#reportOut').textContent = lastReportText;
     }
 
     // ---------- confetti ----------
@@ -1194,13 +1397,21 @@
     $('#resetBtn').addEventListener('click', resetProgress);
     $('#backToTestsBtn').addEventListener('click', ()=> routeTo('tests'));
     $('#prevBtn').addEventListener('click', ()=> { current = Math.max(0, current-1); renderTest(current); });
-    $('#nextBtn').addEventListener('click', ()=> { current = Math.min(tests.length-1, current+1); renderTest(current); });
+    $('#nextBtn').addEventListener('click', ()=> {
+      if(current === tests.length - 1){
+        routeTo('results');
+        return;
+      }
+      current = Math.min(tests.length-1, current+1);
+      renderTest(current);
+    });
     $('#copyBtn').addEventListener('click', async ()=>{
       try{
-        await navigator.clipboard.writeText($('#jsonOut').textContent);
-        toast('Скопировано ✅');
+        const report = lastReportText || $('#reportOut').textContent || 'Пока нет данных для отчёта.';
+        await navigator.clipboard.writeText(report);
+        toast('Отчёт скопирован ✅');
       }catch{
-        toast('Не получилось скопировать. Выдели текст вручную.');
+        toast('Не получилось скопировать. Скопируй текст из блока ниже.');
       }
     });
 
