@@ -1,0 +1,1282 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Как ты видишь мир? — мини‑тест на геометрические иллюзии</title>
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --panel:#111827;
+      --panel2:#0f172a;
+      --text:#e5e7eb;
+      --muted:#94a3b8;
+      --line:#24324a;
+      --good:#22c55e;
+      --bad:#ef4444;
+      --accent:#60a5fa;
+      --accent2:#a78bfa;
+      --warn:#f59e0b;
+      --shadow: 0 12px 30px rgba(0,0,0,.45);
+      --r:16px;
+      --w: 980px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--text);
+      background:
+        radial-gradient(1000px 600px at 12% 15%, rgba(96,165,250,.18), transparent 55%),
+        radial-gradient(900px 500px at 85% 25%, rgba(167,139,250,.16), transparent 55%),
+        radial-gradient(700px 500px at 50% 90%, rgba(34,197,94,.10), transparent 55%),
+        linear-gradient(180deg, #070a11 0%, #0b1020 60%, #070a11 100%);
+      overflow-x:hidden;
+    }
+    a{color:inherit}
+    .wrap{max-width:var(--w); margin:0 auto; padding:20px 18px 60px}
+    header{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter: blur(10px);
+      background: rgba(10, 14, 24, .55);
+      border-bottom: 1px solid rgba(148,163,184,.12);
+    }
+    .topbar{
+      max-width:var(--w);
+      margin:0 auto;
+      padding:14px 18px;
+      display:flex; align-items:center; justify-content:space-between; gap:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px; min-width: 260px;
+    }
+    .logo{
+      width:38px; height:38px; border-radius:12px;
+      background:
+        linear-gradient(135deg, rgba(96,165,250,.95), rgba(167,139,250,.95));
+      box-shadow: 0 10px 30px rgba(96,165,250,.25);
+      position:relative;
+    }
+    .logo:before,.logo:after{
+      content:"";
+      position:absolute; inset:10px;
+      border-radius:8px;
+      border:2px solid rgba(17,24,39,.55);
+    }
+    .logo:after{
+      inset:14px;
+      border-color: rgba(17,24,39,.35);
+    }
+    .brand h1{
+      font-size:14px;
+      line-height:1.1;
+      margin:0;
+      letter-spacing:.2px;
+    }
+    .brand .sub{font-size:12px; color:var(--muted); margin-top:2px}
+    nav{
+      display:flex; gap:8px; align-items:center; flex-wrap:wrap; justify-content:flex-end;
+    }
+    .chip{
+      border:1px solid rgba(148,163,184,.18);
+      background: rgba(17,24,39,.55);
+      color: var(--text);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:12px;
+      cursor:pointer;
+      transition: transform .08s ease, border-color .2s ease, background .2s ease;
+      user-select:none;
+    }
+    .chip:hover{transform: translateY(-1px); border-color: rgba(96,165,250,.35)}
+    .chip[aria-current="page"]{
+      background: rgba(96,165,250,.15);
+      border-color: rgba(96,165,250,.45);
+    }
+
+    .hero{
+      margin-top:18px;
+      background: linear-gradient(180deg, rgba(17,24,39,.8), rgba(15,23,42,.62));
+      border: 1px solid rgba(148,163,184,.14);
+      border-radius: calc(var(--r) + 8px);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero:before{
+      content:"";
+      position:absolute; inset:-40px;
+      background:
+        radial-gradient(200px 200px at 22% 30%, rgba(96,165,250,.22), transparent 60%),
+        radial-gradient(240px 240px at 78% 55%, rgba(167,139,250,.18), transparent 65%),
+        repeating-linear-gradient(45deg, rgba(148,163,184,.06), rgba(148,163,184,.06) 2px, transparent 2px, transparent 14px);
+      filter: blur(0px);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .heroGrid{
+      position:relative;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:18px;
+      align-items:stretch;
+    }
+    @media (max-width: 840px){
+      .heroGrid{grid-template-columns:1fr}
+      .brand{min-width:auto}
+    }
+    .hero h2{
+      margin:0 0 8px;
+      font-size:26px;
+      letter-spacing:.2px;
+    }
+    .hero p{
+      margin: 0 0 14px;
+      color: rgba(229,231,235,.86);
+      line-height:1.45;
+    }
+    .kbd{
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 2px 7px;
+      border: 1px solid rgba(148,163,184,.25);
+      border-bottom-color: rgba(148,163,184,.14);
+      background: rgba(2,6,23,.35);
+      border-radius: 8px;
+      color: rgba(229,231,235,.92);
+      white-space:nowrap;
+    }
+    .ctaRow{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .btn{
+      border:none;
+      border-radius: 12px;
+      padding: 10px 12px;
+      cursor:pointer;
+      font-weight:600;
+      background: rgba(96,165,250,.22);
+      color: var(--text);
+      border:1px solid rgba(96,165,250,.35);
+      transition: transform .08s ease, filter .2s ease, background .2s ease;
+      user-select:none;
+    }
+    .btn:hover{transform: translateY(-1px); filter: brightness(1.05)}
+    .btn.secondary{
+      background: rgba(148,163,184,.10);
+      border-color: rgba(148,163,184,.18);
+      color: rgba(229,231,235,.95);
+    }
+    .btn.ghost{
+      background: transparent;
+      border-color: rgba(148,163,184,.22);
+      color: rgba(229,231,235,.92);
+    }
+    .mini{
+      font-size:12px;
+      color: var(--muted);
+      margin-top:10px;
+    }
+    .stats{
+      position:relative;
+      background: rgba(2,6,23,.35);
+      border: 1px solid rgba(148,163,184,.14);
+      border-radius: var(--r);
+      padding: 14px;
+      box-shadow: 0 10px 28px rgba(0,0,0,.28);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .stat{
+      display:flex; gap:10px; align-items:baseline; justify-content:space-between;
+      padding:10px;
+      background: rgba(17,24,39,.55);
+      border:1px solid rgba(148,163,184,.12);
+      border-radius: 12px;
+    }
+    .stat .k{color: rgba(229,231,235,.9); font-weight:600; font-size:13px}
+    .stat .v{font-family: var(--mono); color: rgba(229,231,235,.85); font-size:12px}
+    .tag{
+      display:inline-flex; gap:6px; align-items:center;
+      padding:3px 8px;
+      border-radius:999px;
+      font-size:11px;
+      border:1px solid rgba(148,163,184,.18);
+      background: rgba(15,23,42,.55);
+      color: rgba(229,231,235,.9);
+      white-space:nowrap;
+    }
+
+    main{margin-top:18px}
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:16px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(17,24,39,.82), rgba(15,23,42,.64));
+      border: 1px solid rgba(148,163,184,.14);
+      border-radius: calc(var(--r) + 6px);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .card h3{
+      margin:0 0 10px;
+      font-size:18px;
+    }
+    .muted{color: var(--muted)}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+
+    .testHeader{
+      display:flex; gap:12px; align-items:flex-start; justify-content:space-between;
+      flex-wrap:wrap;
+      margin-bottom:10px;
+    }
+    .badge{
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 10px;
+      background: rgba(96,165,250,.16);
+      border:1px solid rgba(96,165,250,.28);
+      color: rgba(229,231,235,.95);
+      white-space:nowrap;
+    }
+    .question{
+      margin: 6px 0 12px;
+      color: rgba(229,231,235,.9);
+      line-height:1.4;
+    }
+
+    .stage{
+      width:100%;
+      background: rgba(2,6,23,.35);
+      border: 1px solid rgba(148,163,184,.14);
+      border-radius: var(--r);
+      padding: 12px;
+      overflow:hidden;
+    }
+    .stageInner{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      align-items:stretch;
+    }
+    .svgWrap{
+      width:100%;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding: 6px;
+      border-radius: 14px;
+      border:1px dashed rgba(148,163,184,.14);
+      background: rgba(15,23,42,.35);
+    }
+    svg{max-width: 100%; height: auto; display:block}
+    .controls{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+    }
+    .answers{display:flex; gap:8px; flex-wrap:wrap}
+    .answers .btn{min-width:140px}
+    .toggle{
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end;
+      color: rgba(229,231,235,.85);
+      font-size: 12px;
+      user-select:none;
+    }
+    .toggle input{accent-color: var(--accent)}
+    .feedback{
+      margin-top:12px;
+      padding: 12px;
+      border-radius: var(--r);
+      border: 1px solid rgba(148,163,184,.14);
+      background: rgba(17,24,39,.55);
+      display:none;
+    }
+    .feedback.show{display:block}
+    .feedback .line{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+      margin-bottom: 8px;
+    }
+    .pill{
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border:1px solid rgba(148,163,184,.18);
+      background: rgba(2,6,23,.35);
+      color: rgba(229,231,235,.92);
+    }
+    .pill.good{border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.10)}
+    .pill.bad{border-color: rgba(239,68,68,.35); background: rgba(239,68,68,.10)}
+    .explain{color: rgba(229,231,235,.88); line-height:1.45; margin:0}
+    .small{font-size:12px}
+
+    .progress{
+      display:flex; gap:10px; align-items:center; justify-content:space-between; flex-wrap:wrap;
+      margin-top: 6px;
+      color: rgba(229,231,235,.85);
+      font-size: 12px;
+    }
+    .bar{
+      flex:1;
+      min-width: 220px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(148,163,184,.12);
+      overflow:hidden;
+      border: 1px solid rgba(148,163,184,.14);
+    }
+    .bar > i{
+      display:block;
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(96,165,250,.9), rgba(167,139,250,.9));
+      border-radius:999px;
+      transition: width .25s ease;
+    }
+
+    .resultGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 740px){
+      .resultGrid{grid-template-columns:1fr}
+    }
+    .metric{
+      background: rgba(2,6,23,.35);
+      border: 1px solid rgba(148,163,184,.14);
+      border-radius: var(--r);
+      padding: 12px;
+    }
+    .metric h4{margin:0 0 6px; font-size:14px}
+    .metric p{margin:0; color: rgba(229,231,235,.86); line-height:1.45}
+    .hr{
+      height:1px; background: rgba(148,163,184,.12);
+      margin: 12px 0;
+    }
+    .foot{
+      margin-top: 16px;
+      color: rgba(148,163,184,.85);
+      font-size: 12px;
+      line-height:1.45;
+    }
+
+    /* confetti */
+    .confetti{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      display:none;
+      z-index: 999;
+    }
+    .confetti.show{display:block}
+    .piece{
+      position:absolute;
+      width:8px; height:14px;
+      border-radius: 2px;
+      opacity:.9;
+      top:-20px;
+      animation: fall 1.7s linear forwards;
+    }
+    @keyframes fall{
+      to{ transform: translateY(110vh) rotate(540deg); opacity:1 }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div class="brand" title="Мини‑сайт на HTML/CSS/JS в одном файле">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Как ты видишь мир?</h1>
+          <div class="sub">мини‑тест: геометрические иллюзии</div>
+        </div>
+      </div>
+      <nav>
+        <button class="chip" data-route="home" aria-current="page">Главная</button>
+        <button class="chip" data-route="tests">Тест</button>
+        <button class="chip" data-route="results">Результат</button>
+        <button class="chip" data-route="about">О проекте</button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <!-- HOME -->
+    <section id="view-home" class="view">
+      <div class="hero">
+        <div class="heroGrid">
+          <div>
+            <h2>Твой мозг — хитрый редактор реальности</h2>
+            <p>
+              Здесь 6 коротких испытаний. На каждом ты отвечаешь, что кажется больше/длиннее/кривее.
+              А потом мы покажем правду и объясним, почему так вышло.
+            </p>
+            <div class="ctaRow">
+              <button class="btn" id="startBtn">Начать тест</button>
+              <button class="btn secondary" id="resetBtn">Сбросить прогресс</button>
+              <button class="btn ghost" id="demoBtn" title="Быстрый прогон без чтения">Демо‑режим</button>
+            </div>
+            <div class="mini">
+              Подсказка: для честности сначала <span class="kbd">не включай</span> «показать мерки».
+              Потом можно проверить себя.
+            </div>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <div class="k">Вопросов</div>
+              <div class="v"><span id="totalCount">6</span></div>
+            </div>
+            <div class="stat">
+              <div class="k">Прогресс</div>
+              <div class="v"><span id="progCount">0</span>/<span id="progTotal">6</span></div>
+            </div>
+            <div class="stat">
+              <div class="k">Готовность</div>
+              <div class="v"><span class="tag">HTML</span> <span class="tag">CSS</span> <span class="tag">JS</span></div>
+            </div>
+            <div class="stat">
+              <div class="k">Совет</div>
+              <div class="v">лучше на ПК/планшете</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h3>Как это работает</h3>
+        <p class="muted" style="margin:0">
+          Мы не «проверяем зрение». Мы показываем, как контекст (стрелки, перспектива, окружение)
+          может менять восприятие длины и размера.
+        </p>
+      </div>
+    </section>
+
+    <!-- TESTS -->
+    <section id="view-tests" class="view" hidden>
+      <div class="card">
+        <div class="testHeader">
+          <div>
+            <h3 style="margin:0">Тест</h3>
+            <div class="muted small">Отвечай быстро, потом проверяй мерками.</div>
+          </div>
+          <div class="row">
+            <span class="badge" id="qBadge">Вопрос 1/6</span>
+            <button class="btn secondary" id="prevBtn">← Назад</button>
+            <button class="btn" id="nextBtn">Дальше →</button>
+          </div>
+        </div>
+
+        <div class="progress">
+          <div class="bar" aria-label="Прогресс"><i id="barFill"></i></div>
+          <div><span id="answeredCount">0</span> из <span id="answeredTotal">6</span> отвечено</div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div id="testHost" class="stage"></div>
+      </div>
+
+      <div class="foot">
+        Нормально ошибаться: иллюзии так и работают 🙂 Если картинка «плывёт» — это часть эффекта.
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section id="view-results" class="view" hidden>
+      <div class="card">
+        <h3>Результат</h3>
+        <p class="muted" style="margin:0 0 10px">
+          Тут твой «профиль восприятия». Можно скопировать результаты и вставить в отчёт.
+        </p>
+        <div class="resultGrid" id="resultGrid"></div>
+
+        <div class="hr"></div>
+
+        <div class="row">
+          <button class="btn" id="copyBtn">Скопировать результат (JSON)</button>
+          <button class="btn secondary" id="backToTestsBtn">Вернуться к тесту</button>
+        </div>
+
+        <pre id="jsonOut" style="margin-top:12px; white-space:pre-wrap; word-break:break-word; font-family:var(--mono); font-size:12px; color: rgba(229,231,235,.88); background: rgba(2,6,23,.35); border:1px solid rgba(148,163,184,.14); padding:12px; border-radius: var(--r);"></pre>
+
+        <div class="foot">
+          <b>Важно:</b> это развлекательный мини‑тест. Он не является медицинской диагностикой.
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="view-about" class="view" hidden>
+      <div class="card">
+        <h3>О проекте</h3>
+        <p class="muted" style="margin:0 0 10px">
+          Сайт можно использовать как «продукт» для твоего проекта: он показывает иллюзии,
+          собирает ответы и формирует результат.
+        </p>
+
+        <div class="metric">
+          <h4>Что внутри</h4>
+          <p>
+            Иллюзии: Мюллера‑Лайера, Понцо, Эббингауза, Цёлльнера, Геринга и Оппель‑Кундта.
+            Все картинки сгенерированы SVG/HTML, без библиотек.
+          </p>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="metric">
+          <h4>Как улучшить (если будет время)</h4>
+          <p>
+            1) Добавить опросник (возраст/город/опыт рисования). 2) Сделать «ползунки» для точной подгонки длины.
+            3) Сохранять результаты в файл. 4) Добавить ещё 2–3 иллюзии (кафе‑волл, Поггендорфа, Дельбёфа).
+          </p>
+        </div>
+
+        <div class="foot">
+          Сделано в одном файле: можно открыть локально, без интернета.
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="confetti" id="confetti"></div>
+
+  <script>
+    // ---------- helpers ----------
+    const $ = (sel, root=document) => root.querySelector(sel);
+    const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
+    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+    // ---------- routes ----------
+    const views = {
+      home: $('#view-home'),
+      tests: $('#view-tests'),
+      results: $('#view-results'),
+      about: $('#view-about')
+    };
+    const chips = $$('nav .chip');
+
+    function routeTo(name){
+      Object.entries(views).forEach(([k, el]) => el.hidden = k !== name);
+      chips.forEach(c => c.setAttribute('aria-current', c.dataset.route === name ? 'page' : 'false'));
+      if(name === 'results') renderResults();
+      if(name === 'tests') renderTest(current);
+      localStorage.setItem('route', name);
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    // ---------- tests data ----------
+    // Correct answers: в большинстве случаев "одинаковые" или "параллельные/прямые".
+    const tests = [
+      {
+        id:'muller-lyer',
+        title:'Иллюзия Мюллера‑Лайера',
+        type:'choice',
+        badge:'Длина',
+        question:'Какая горизонтальная линия длиннее?',
+        options:[
+          {key:'top', label:'Верхняя'},
+          {key:'bottom', label:'Нижняя'},
+          {key:'equal', label:'Они равны'}
+        ],
+        correct:'equal',
+        explain:`Две линии физически одинаковой длины, но «стрелки» на концах дают мозгу подсказку про перспективу/углы.
+И из‑за этого кажется, что одна линия короче, а другая длиннее.`,
+        render: (state) => `
+          <div class="stageInner">
+            <div class="svgWrap">
+              <svg viewBox="0 0 720 260" role="img" aria-label="Иллюзия Мюллера‑Лайера">
+                <defs>
+                  <style>
+                    .L{stroke: rgba(229,231,235,.92); stroke-width:10; stroke-linecap:round}
+                    .A{stroke: rgba(229,231,235,.92); stroke-width:10; stroke-linecap:round}
+                    .M{stroke: rgba(96,165,250,.95); stroke-width:4; stroke-linecap:round; opacity:${state.showMeasure?1:0}}
+                    .T{fill: rgba(148,163,184,.8); font: 18px ${getComputedStyle(document.documentElement).getPropertyValue('--mono')}
+                  </style>
+                </defs>
+
+                <!-- top line with inward arrows -->
+                <line x1="160" y1="75" x2="560" y2="75" class="L"/>
+                <line x1="160" y1="75" x2="210" y2="35" class="A"/>
+                <line x1="160" y1="75" x2="210" y2="115" class="A"/>
+                <line x1="560" y1="75" x2="510" y2="35" class="A"/>
+                <line x1="560" y1="75" x2="510" y2="115" class="A"/>
+
+                <!-- bottom line with outward arrows -->
+                <line x1="160" y1="185" x2="560" y2="185" class="L"/>
+                <line x1="160" y1="185" x2="110" y2="145" class="A"/>
+                <line x1="160" y1="185" x2="110" y2="225" class="A"/>
+                <line x1="560" y1="185" x2="610" y2="145" class="A"/>
+                <line x1="560" y1="185" x2="610" y2="225" class="A"/>
+
+                <!-- measurement marks -->
+                <line x1="160" y1="20" x2="160" y2="240" class="M"/>
+                <line x1="560" y1="20" x2="560" y2="240" class="M"/>
+                <text x="165" y="38" class="T" opacity="${state.showMeasure?1:0}">мерки</text>
+              </svg>
+            </div>
+
+            ${controlsHTML(state)}
+          </div>
+        `
+      },
+
+      {
+        id:'ponzo',
+        title:'Иллюзия Понцо',
+        type:'choice',
+        badge:'Перспектива',
+        question:'Какая планка кажется длиннее?',
+        options:[
+          {key:'top', label:'Верхняя'},
+          {key:'bottom', label:'Нижняя'},
+          {key:'equal', label:'Они равны'}
+        ],
+        correct:'equal',
+        explain:`Сходящиеся линии мозг воспринимает как «рельсы» в перспективе.
+То, что выше, кажется дальше — а значит «должно быть» больше. Так и появляется обман.`,
+        render: (state) => `
+          <div class="stageInner">
+            <div class="svgWrap">
+              <svg viewBox="0 0 720 300" role="img" aria-label="Иллюзия Понцо">
+                <defs>
+                  <style>
+                    .rail{stroke: rgba(148,163,184,.65); stroke-width:6}
+                    .bar{stroke: rgba(229,231,235,.92); stroke-width:16; stroke-linecap:round}
+                    .M{stroke: rgba(96,165,250,.95); stroke-width:4; opacity:${state.showMeasure?1:0}}
+                    .T{fill: rgba(148,163,184,.8); font: 18px ${getComputedStyle(document.documentElement).getPropertyValue('--mono')}
+                  </style>
+                </defs>
+
+                <line x1="120" y1="270" x2="330" y2="40" class="rail"/>
+                <line x1="600" y1="270" x2="390" y2="40" class="rail"/>
+
+                <line x1="250" y1="110" x2="470" y2="110" class="bar"/>
+                <line x1="250" y1="210" x2="470" y2="210" class="bar"/>
+
+                <line x1="250" y1="80" x2="250" y2="240" class="M"/>
+                <line x1="470" y1="80" x2="470" y2="240" class="M"/>
+                <text x="256" y="70" class="T" opacity="${state.showMeasure?1:0}">одинаково</text>
+              </svg>
+            </div>
+
+            ${controlsHTML(state)}
+          </div>
+        `
+      },
+
+      {
+        id:'ebbinghaus',
+        title:'Иллюзия Эббингауза',
+        type:'choice',
+        badge:'Размер',
+        question:'Какой центральный круг больше?',
+        options:[
+          {key:'left', label:'Левый'},
+          {key:'right', label:'Правый'},
+          {key:'equal', label:'Они равны'}
+        ],
+        correct:'equal',
+        explain:`Центральные круги одинаковые, но окружение «сдвигает» оценку размера:
+рядом с большими кругами центр кажется меньше, а рядом с маленькими — больше.`,
+        render: (state) => `
+          <div class="stageInner">
+            <div class="svgWrap">
+              <svg viewBox="0 0 760 300" role="img" aria-label="Иллюзия Эббингауза">
+                <defs>
+                  <style>
+                    .s{fill: rgba(148,163,184,.65)}
+                    .b{fill: rgba(148,163,184,.45)}
+                    .c{fill: rgba(229,231,235,.92)}
+                    .M{stroke: rgba(96,165,250,.95); stroke-width:3; fill:none; opacity:${state.showMeasure?1:0}}
+                    .T{fill: rgba(148,163,184,.8); font: 16px ${getComputedStyle(document.documentElement).getPropertyValue('--mono')}
+                  </style>
+                </defs>
+
+                <!-- left group: big surrounding circles -->
+                <g transform="translate(190,150)">
+                  <circle r="32" class="c"/>
+                  <g>
+                    ${[0,60,120,180,240,300].map(a=>{
+                      const rad = 78;
+                      const x = Math.cos(a*Math.PI/180)*rad;
+                      const y = Math.sin(a*Math.PI/180)*rad;
+                      return `<circle cx="${x}" cy="${y}" r="30" class="b"/>`;
+                    }).join('')}
+                  </g>
+                  <circle r="32" class="M"/>
+                </g>
+
+                <!-- right group: small surrounding circles -->
+                <g transform="translate(570,150)">
+                  <circle r="32" class="c"/>
+                  <g>
+                    ${[0,60,120,180,240,300].map(a=>{
+                      const rad = 78;
+                      const x = Math.cos(a*Math.PI/180)*rad;
+                      const y = Math.sin(a*Math.PI/180)*rad;
+                      return `<circle cx="${x}" cy="${y}" r="14" class="s"/>`;
+                    }).join('')}
+                  </g>
+                  <circle r="32" class="M"/>
+                </g>
+
+                <text x="20" y="26" class="T" opacity="${state.showMeasure?1:0}">мерки показывают: центры одинаковые</text>
+              </svg>
+            </div>
+
+            ${controlsHTML(state)}
+          </div>
+        `
+      },
+
+      {
+        id:'zollner',
+        title:'Иллюзия Цёлльнера',
+        type:'choice',
+        badge:'Параллельность',
+        question:'Длинные линии параллельны?',
+        options:[
+          {key:'yes', label:'Да, параллельны'},
+          {key:'no', label:'Нет, не параллельны'}
+        ],
+        correct:'yes',
+        explain:`Короткие наклонные штрихи заставляют мозг «считать», что длинные линии расходятся.
+Но на самом деле они параллельны.`,
+        render: (state) => `
+          <div class="stageInner">
+            <div class="svgWrap">
+              <svg viewBox="0 0 760 300" role="img" aria-label="Иллюзия Цёлльнера">
+                <defs>
+                  <style>
+                    .L{stroke: rgba(229,231,235,.92); stroke-width:10; stroke-linecap:round}
+                    .S{stroke: rgba(148,163,184,.7); stroke-width:6; stroke-linecap:round}
+                    .M{stroke: rgba(96,165,250,.95); stroke-width:3; opacity:${state.showMeasure?1:0}}
+                    .T{fill: rgba(148,163,184,.8); font: 16px ${getComputedStyle(document.documentElement).getPropertyValue('--mono')}
+                  </style>
+                </defs>
+
+                <!-- long lines -->
+                <line x1="140" y1="90" x2="620" y2="90" class="L"/>
+                <line x1="140" y1="210" x2="620" y2="210" class="L"/>
+
+                <!-- short slanted strokes -->
+                ${Array.from({length:9}).map((_,i)=>{
+                  const x = 170 + i*55;
+                  const y1 = 90;
+                  const y2 = 210;
+                  const dir = i%2===0 ? 1 : -1;
+                  return `
+                    <line x1="${x-20}" y1="${y1-28*dir}" x2="${x+20}" y2="${y1+28*dir}" class="S"/>
+                    <line x1="${x-20}" y1="${y2-28*dir}" x2="${x+20}" y2="${y2+28*dir}" class="S"/>
+                  `;
+                }).join('')}
+
+                <!-- measurement guide -->
+                <line x1="120" y1="90" x2="640" y2="90" class="M"/>
+                <line x1="120" y1="210" x2="640" y2="210" class="M"/>
+                <text x="20" y="26" class="T" opacity="${state.showMeasure?1:0}">мерки: линии параллельны</text>
+              </svg>
+            </div>
+
+            ${controlsHTML(state)}
+          </div>
+        `
+      },
+
+      {
+        id:'hering',
+        title:'Иллюзия Геринга',
+        type:'choice',
+        badge:'Кривизна',
+        question:'Вертикальные линии прямые?',
+        options:[
+          {key:'yes', label:'Да, прямые'},
+          {key:'no', label:'Нет, изогнуты'}
+        ],
+        correct:'yes',
+        explain:`Радиальные линии дают ощущение «выпуклости» или перспективы, поэтому прямые кажутся изогнутыми.
+Если включить мерки, видно: они строго прямые.`,
+        render: (state) => {
+          const rays = Array.from({length:32}).map((_,i)=>{
+            const a = (i/32) * Math.PI - Math.PI/2;
+            const x = 380 + Math.cos(a)*420;
+            const y = 150 + Math.sin(a)*420;
+            return `<line x1="380" y1="150" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(148,163,184,.45)" stroke-width="4"/>`;
+          }).join('');
+          return `
+            <div class="stageInner">
+              <div class="svgWrap">
+                <svg viewBox="0 0 760 300" role="img" aria-label="Иллюзия Геринга">
+                  <defs>
+                    <style>
+                      .V{stroke: rgba(229,231,235,.92); stroke-width:10; stroke-linecap:round}
+                      .M{stroke: rgba(96,165,250,.95); stroke-width:3; opacity:${state.showMeasure?1:0}}
+                      .T{fill: rgba(148,163,184,.8); font: 16px ${getComputedStyle(document.documentElement).getPropertyValue('--mono')}
+                    </style>
+                  </defs>
+                  ${rays}
+                  <line x1="280" y1="30" x2="280" y2="270" class="V"/>
+                  <line x1="480" y1="30" x2="480" y2="270" class="V"/>
+
+                  <line x1="280" y1="20" x2="280" y2="280" class="M"/>
+                  <line x1="480" y1="20" x2="480" y2="280" class="M"/>
+                  <text x="20" y="26" class="T" opacity="${state.showMeasure?1:0}">мерки: прямые</text>
+                </svg>
+              </div>
+
+              ${controlsHTML(state)}
+            </div>
+          `;
+        }
+      },
+
+      {
+
+        id:'oppel-kundt',
+        title:'Иллюзия Оппель‑Кундта',
+        type:'choice',
+        badge:'Деление',
+        question:'Какой отрезок кажется длиннее?',
+        options:[
+          {key:'left', label:'Левый'},
+          {key:'right', label:'Правый'},
+          {key:'equal', label:'Они равны'}
+        ],
+        correct:'equal',
+        explain:`Два отрезка одинаковые по длине, но если один из них «разделить» частыми штрихами,
+он часто кажется длиннее. Мозг учитывает плотность деталей и ошибается в оценке длины.`,
+        render: (state) => `
+          <div class="stageInner">
+            <div class="svgWrap">
+              <svg viewBox="0 0 760 260" role="img" aria-label="Иллюзия Оппель‑Кундта">
+                <defs>
+                  <style>
+                    .L{stroke: rgba(229,231,235,.92); stroke-width:14; stroke-linecap:round}
+                    .tick{stroke: rgba(148,163,184,.8); stroke-width:6; stroke-linecap:round}
+                    .M{stroke: rgba(96,165,250,.95); stroke-width:3; opacity:${state.showMeasure?1:0}}
+                    .T{fill: rgba(148,163,184,.8); font: 16px ${getComputedStyle(document.documentElement).getPropertyValue('--mono')}
+                  </style>
+                </defs>
+
+                <!-- left segmented -->
+                <line x1="140" y1="120" x2="340" y2="120" class="L"/>
+                ${Array.from({length:9}).map((_,i)=>{
+                  const x = 160 + i*20;
+                  return `<line x1="${x}" y1="96" x2="${x}" y2="144" class="tick"/>`;
+                }).join('')}
+
+                <!-- right plain -->
+                <line x1="420" y1="120" x2="620" y2="120" class="L"/>
+
+                <!-- measurement guides -->
+                <line x1="140" y1="60" x2="140" y2="190" class="M"/>
+                <line x1="340" y1="60" x2="340" y2="190" class="M"/>
+                <line x1="420" y1="60" x2="420" y2="190" class="M"/>
+                <line x1="620" y1="60" x2="620" y2="190" class="M"/>
+                <text x="22" y="28" class="T" opacity="${state.showMeasure?1:0}">мерки: равны</text>
+              </svg>
+            </div>
+
+            ${controlsHTML(state)}
+          </div>
+        `
+      }
+    ];
+
+    function controlsHTML(state){
+      const opts = state.test.options.map(o => `
+        <button class="btn ${state.answered? 'secondary':''}" data-answer="${o.key}">
+          ${o.label}
+        </button>
+      `).join('');
+
+      return `
+        <div class="controls">
+          <div class="answers">${opts}</div>
+          <label class="toggle">
+            <input type="checkbox" ${state.showMeasure?'checked':''} data-toggle="measure"/>
+            показать мерки
+          </label>
+        </div>
+        <div class="feedback ${state.answered?'show':''}">
+          <div class="line">
+            <span class="pill ${state.isCorrect?'good':'bad'}">
+              ${state.answered ? (state.isCorrect ? '✅ Верно' : '❌ Обмануло') : ''}
+            </span>
+            <span class="pill">правильно: ${labelFor(state.test, state.test.correct)}</span>
+          </div>
+          <p class="explain">${escapeHTML(state.test.explain)}</p>
+        </div>
+      `;
+    }
+
+    function labelFor(test, key){
+      const found = (test.options || []).find(o => o.key === key);
+      if(found) return found.label;
+      if(key === 'yes') return 'Да';
+      if(key === 'no') return 'Нет';
+      return key;
+    }
+
+    function escapeHTML(s){
+      return String(s).replace(/[&<>"']/g, m => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+      }[m]));
+    }
+
+    // ---------- state ----------
+    let current = 0;
+    const defaultProgress = tests.reduce((acc,t)=> (acc[t.id]={answered:false, answer:null, showMeasure:false}, acc), {});
+    let progress = loadProgress();
+
+    function loadProgress(){
+      try{
+        const raw = localStorage.getItem('visionQuizProgress');
+        if(!raw) return structuredClone(defaultProgress);
+        const p = JSON.parse(raw);
+        return {...structuredClone(defaultProgress), ...p};
+      }catch{
+        return structuredClone(defaultProgress);
+      }
+    }
+    function saveProgress(){
+      localStorage.setItem('visionQuizProgress', JSON.stringify(progress));
+      updateTopStats();
+    }
+
+    function resetProgress(){
+      progress = structuredClone(defaultProgress);
+      current = 0;
+      saveProgress();
+      updateUI();
+      toast('Прогресс сброшен');
+    }
+
+    // ---------- rendering ----------
+    const host = $('#testHost');
+
+    function getStateFor(i){
+      const test = tests[i];
+      const p = progress[test.id] || {answered:false, answer:null, showMeasure:false};
+      const isCorrect = p.answered ? (p.answer === test.correct) : false;
+      return {test, ...p, isCorrect};
+    }
+
+    function renderTest(i){
+      i = clamp(i, 0, tests.length-1);
+      current = i;
+
+      const st = getStateFor(i);
+      const html = `
+        <div class="testHeader" style="margin:0 0 6px">
+          <div>
+            <div class="row" style="gap:8px">
+              <span class="badge">${st.test.badge}</span>
+              <strong style="font-size:16px">${escapeHTML(st.test.title)}</strong>
+            </div>
+            <div class="question">${escapeHTML(st.test.question)}</div>
+          </div>
+        </div>
+        ${st.test.render(st)}
+      `;
+
+      host.innerHTML = html;
+
+      // answer buttons
+      $$('[data-answer]', host).forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          if(progress[st.test.id].answered) return;
+          const ans = btn.dataset.answer;
+          progress[st.test.id].answered = true;
+          progress[st.test.id].answer = ans;
+          saveProgress();
+          renderTest(current);
+
+          if(demoMode){
+            setTimeout(()=>{ 
+              if(current < tests.length-1) { current++; renderTest(current); updateUI(); } 
+              else { routeTo('results'); } 
+            }, 350);
+          }
+        });
+      });
+
+      // measure toggle
+      const tog = $('[data-toggle="measure"]', host);
+      if(tog){
+        tog.addEventListener('change', ()=>{
+          progress[st.test.id].showMeasure = tog.checked;
+          saveProgress();
+          renderTest(current);
+        });
+      }
+
+      updateUI();
+    }
+
+    function updateUI(){
+      $('#qBadge').textContent = `Вопрос ${current+1}/${tests.length}`;
+      $('#answeredTotal').textContent = tests.length;
+      $('#progTotal').textContent = tests.length;
+
+      const answered = tests.filter(t => progress[t.id]?.answered).length;
+      $('#answeredCount').textContent = answered;
+      $('#progCount').textContent = answered;
+
+      const pct = Math.round((answered/tests.length)*100);
+      $('#barFill').style.width = `${pct}%`;
+
+      $('#prevBtn').disabled = current === 0;
+      $('#nextBtn').disabled = current === tests.length-1;
+
+      $('#totalCount').textContent = tests.length;
+
+      if(!views.results.hidden) renderResults();
+    }
+
+    function renderResults(){
+      const answered = tests.filter(t => progress[t.id]?.answered).length;
+      const correct = tests.filter(t => progress[t.id]?.answered && progress[t.id].answer === t.correct).length;
+      const fooled = answered - correct;
+
+      const byType = {
+        length: ['muller-lyer','ponzo','oppel-kundt'],
+        size: ['ebbinghaus'],
+        parallel: ['zollner'],
+        curve: ['hering']
+      };
+
+      const segment = (ids) => {
+        const items = ids.map(id => progress[id]).filter(Boolean);
+        const a = items.filter(x => x.answered).length;
+        const c = ids.filter(id => progress[id]?.answered && progress[id]?.answer === tests.find(t=>t.id===id).correct).length;
+        return {answered:a, correct:c, fooled: a-c};
+      };
+
+      const segLength = segment(byType.length);
+      const segSize = segment(byType.size);
+      const segOther = {
+        answered: segment(byType.parallel).answered + segment(byType.curve).answered,
+        fooled: segment(byType.parallel).fooled + segment(byType.curve).fooled
+      };
+
+      const verdict = (() => {
+        if(answered === 0) return 'Пока нет ответов — пройди тест 🙂';
+        const rate = correct/answered;
+        if(rate >= .84) return 'Очень внимателен: контекст тебя не так легко обманет.';
+        if(rate >= .6) return 'Неплохо! Иногда контекст всё же побеждает.';
+        if(rate >= .4) return 'Нормально: большинство людей ошибается на таких картинках.';
+        return 'Сегодня мозг решил «додумать» картинку за тебя — это и есть иллюзии 🙂';
+      })();
+
+      const grid = $('#resultGrid');
+      grid.innerHTML = `
+        <div class="metric">
+          <h4>Сводка</h4>
+          <p>
+            Отвечено: <b>${answered}</b> из <b>${tests.length}</b><br/>
+            Верно: <b>${correct}</b><br/>
+            «Обмануло»: <b>${fooled}</b><br/>
+            <span class="muted">Вывод:</span> ${escapeHTML(verdict)}
+          </p>
+        </div>
+        <div class="metric">
+          <h4>Какие эффекты сильнее</h4>
+          <p>
+            Длина/перспектива: <b>${segLength.fooled}</b> ошибок из <b>${segLength.answered}</b><br/>
+            Размер/окружение: <b>${segSize.fooled}</b> ошибок из <b>${segSize.answered}</b><br/>
+            Геометрия (паралл./крив.): <b>${segOther.fooled}</b> ошибок из <b>${segOther.answered}</b>
+          </p>
+        </div>
+        <div class="metric">
+          <h4>По вопросам</h4>
+          <p>
+            ${tests.map(t=>{
+              const p = progress[t.id];
+              const ok = p?.answered ? (p.answer === t.correct) : null;
+              const mark = ok===null ? '—' : (ok ? '✅' : '❌');
+              const ans = p?.answered ? labelFor(t, p.answer) : 'нет ответа';
+              return `${mark} <b>${escapeHTML(t.title)}</b>: ${escapeHTML(ans)}`;
+            }).join('<br/>')}
+          </p>
+        </div>
+        <div class="metric">
+          <h4>Идея для отчёта</h4>
+          <p>
+            Можно дать пройти этот сайт 20–30 людям и сравнить, какие иллюзии «сильнее» по проценту ошибок.
+            (Таблицу удобно собрать из JSON, который копируется ниже.)
+          </p>
+        </div>
+      `;
+
+      const out = {
+        title: 'Как ты видишь мир?',
+        timestamp: new Date().toISOString(),
+        answered,
+        correct,
+        fooled,
+        answers: tests.map(t => ({
+          id: t.id,
+          title: t.title,
+          answered: !!progress[t.id]?.answered,
+          answer: progress[t.id]?.answer ?? null,
+          correct: t.correct,
+          isCorrect: progress[t.id]?.answered ? (progress[t.id]?.answer === t.correct) : null
+        }))
+      };
+      const json = JSON.stringify(out, null, 2);
+      $('#jsonOut').textContent = json;
+    }
+
+    // ---------- confetti ----------
+    function confetti(){
+      const root = $('#confetti');
+      root.innerHTML = '';
+      const n = 70;
+      for(let i=0;i<n;i++){
+        const el = document.createElement('div');
+        el.className = 'piece';
+        el.style.left = (Math.random()*100) + 'vw';
+        el.style.animationDuration = (1.2 + Math.random()*1.4) + 's';
+        el.style.animationDelay = (Math.random()*0.2) + 's';
+        el.style.transform = `translateY(-20px) rotate(${Math.random()*180}deg)`;
+        el.style.background = `hsl(${Math.floor(Math.random()*360)}, 85%, 65%)`;
+        el.style.width = (6 + Math.random()*8) + 'px';
+        el.style.height = (10 + Math.random()*14) + 'px';
+        root.appendChild(el);
+      }
+      root.classList.add('show');
+      setTimeout(()=>root.classList.remove('show'), 1800);
+    }
+
+    // ---------- toast ----------
+    let toastTimer = null;
+    function toast(msg){
+      let el = $('#toast');
+      if(!el){
+        el = document.createElement('div');
+        el.id = 'toast';
+        el.style.position = 'fixed';
+        el.style.left = '50%';
+        el.style.bottom = '18px';
+        el.style.transform = 'translateX(-50%)';
+        el.style.background = 'rgba(17,24,39,.92)';
+        el.style.border = '1px solid rgba(148,163,184,.18)';
+        el.style.borderRadius = '14px';
+        el.style.padding = '10px 12px';
+        el.style.boxShadow = '0 18px 45px rgba(0,0,0,.45)';
+        el.style.color = 'rgba(229,231,235,.92)';
+        el.style.fontSize = '12px';
+        el.style.zIndex = 1000;
+        el.style.maxWidth = '92vw';
+        document.body.appendChild(el);
+      }
+      el.textContent = msg;
+      el.style.opacity = '1';
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=>{ el.style.opacity = '0'; }, 1300);
+    }
+
+    // ---------- UI wiring ----------
+    $('#startBtn').addEventListener('click', ()=> routeTo('tests'));
+    $('#resetBtn').addEventListener('click', resetProgress);
+    $('#backToTestsBtn').addEventListener('click', ()=> routeTo('tests'));
+    $('#prevBtn').addEventListener('click', ()=> { current = Math.max(0, current-1); renderTest(current); });
+    $('#nextBtn').addEventListener('click', ()=> { current = Math.min(tests.length-1, current+1); renderTest(current); });
+    $('#copyBtn').addEventListener('click', async ()=>{
+      try{
+        await navigator.clipboard.writeText($('#jsonOut').textContent);
+        toast('Скопировано ✅');
+      }catch{
+        toast('Не получилось скопировать. Выдели текст вручную.');
+      }
+    });
+
+    chips.forEach(ch => ch.addEventListener('click', ()=> routeTo(ch.dataset.route)));
+
+    // demo mode: auto answers randomly
+    let demoMode = false;
+    $('#demoBtn').addEventListener('click', ()=>{
+      demoMode = !demoMode;
+      toast(demoMode ? 'Демо‑режим: ВКЛ' : 'Демо‑режим: ВЫКЛ');
+      if(demoMode){
+        routeTo('tests');
+        setTimeout(()=>demoTick(), 200);
+      }
+    });
+
+    function demoTick(){
+      if(!demoMode) return;
+      const t = tests[current];
+      const p = progress[t.id];
+      if(!p.answered){
+        const randomOpt = t.options[Math.floor(Math.random()*t.options.length)].key;
+        progress[t.id].answered = true;
+        progress[t.id].answer = randomOpt;
+        saveProgress();
+        renderTest(current);
+      }
+      if(current < tests.length-1){
+        current++;
+        setTimeout(()=>{ renderTest(current); demoTick(); }, 180);
+      }else{
+        demoMode = false;
+        routeTo('results');
+      }
+    }
+
+    // ----------- top stats ----------
+    function updateTopStats(){
+      const answered = tests.filter(t => progress[t.id]?.answered).length;
+      $('#progCount').textContent = answered;
+      $('#progTotal').textContent = tests.length;
+      $('#answeredCount').textContent = answered;
+      $('#answeredTotal').textContent = tests.length;
+    }
+
+    // ----------- init ----------
+    (function init(){
+      const savedRoute = localStorage.getItem('route') || 'home';
+      routeTo(savedRoute in views ? savedRoute : 'home');
+
+      const answered = tests.filter(t => progress[t.id]?.answered).length;
+      const correct = tests.filter(t => progress[t.id]?.answered && progress[t.id].answer === t.correct).length;
+      if(answered === tests.length && correct === answered && !sessionStorage.getItem('confettiShown')){
+        confetti();
+        sessionStorage.setItem('confettiShown', '1');
+      }
+
+      updateUI();
+
+      window.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape') routeTo('home');
+        if(views.tests.hidden) return;
+        if(e.key === 'ArrowLeft') $('#prevBtn').click();
+        if(e.key === 'ArrowRight') $('#nextBtn').click();
+      });
+    })();
+
+    // show confetti when finishing perfectly
+    const observer = new MutationObserver(()=>{
+      const answered = tests.filter(t => progress[t.id]?.answered).length;
+      const correct = tests.filter(t => progress[t.id]?.answered && progress[t.id].answer === t.correct).length;
+      if(answered === tests.length && correct === answered){
+        confetti();
+      }
+    });
+    observer.observe(document.body, {subtree:true, childList:true, characterData:true});
+  </script>
+</body>
+</html>
